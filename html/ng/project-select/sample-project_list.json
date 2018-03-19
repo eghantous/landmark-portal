@@ -1,0 +1,54 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "project1",
+      "status": "NEW"
+    },
+    {
+      "id": 2,
+      "name": "project2",
+      "status": "NEW"
+    },
+    {
+      "id": 3,
+      "name": "project3",
+      "status": "NEW"
+    },
+    {
+      "id": 4,
+      "name": "project4",
+      "status": "NEW"
+    },
+    {
+      "id": 5,
+      "name": "project5",
+      "status": "NEW"
+    },
+    {
+      "id": 6,
+      "name": "project6",
+      "status": "NEW"
+    },
+    {
+      "id": 7,
+      "name": "project7",
+      "status": "NEW"
+    },
+    {
+      "id": 8,
+      "name": "project8",
+      "status": "NEW"
+    },
+    {
+      "id": 9,
+      "name": "project9",
+      "status": "NEW"
+    },
+    {
+      "id": 10,
+      "name": "project10",
+      "status": "NEW"
+    }
+  ]
+}

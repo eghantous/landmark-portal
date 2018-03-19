@@ -1,0 +1,66 @@
+<div ng-include="'ng/project-status-header/template.html'"></div>
+
+<div class="container" ng-controller="projectHarvestCtrl">
+
+  <h3>Project Status</h3>
+
+  <div ng-show="projectStatus">
+    <b>Status:</b>
+    <span class="label"
+          ng-class="{'label-default':projectStatus.status=='NEW'
+                    ,'label-primary':projectStatus.status=='LEARNING'
+                    ,'label-success':projectStatus.status=='READY'
+                    ,'label-info':projectStatus.status=='HARVESTING'||projectStatus.status=='CLUSTERING'
+                    ,'label-danger':projectStatus.status=='ERROR'}">
+      {{projectStatus.status}}
+    </span>
+  </div>
+  
+  <h3>Harvesting Status</h3>
+
+  <div ng-show="crawlStatus">
+    <a class="btn btn-success"
+       ng-show="crawlStatus.status == 'COMPLETED'"
+       ng-href="#/project/{{projectid}}/cluster">Ready to review clusters</a>
+    
+    
+    <br><b>Status:</b> {{crawlStatus.status}}
+    <a class="btn btn-danger"
+       ng-show="crawlStatus.status == 'RUNNING'"
+       ng-click="cancelCollect()">Cancel</a>
+    <br><b>Url:</b> {{crawlStatus.url}}
+    <br><b>Started:</b> {{crawlStatus.started_ms | date:'short'}}
+    <br><b>Pages Fetched:</b> 
+    <span ng-hide="crawlStatus.pages_fetched==0 || crawlStatus.status=='COMPLETED'">about </span>{{crawlStatus.pages_fetched | number}}
+    
+    <br><b>Depth limit:</b> {{crawlStatus.depth}}
+    <br>
+    <a href=""
+       ng-click="more=!more">
+      <span ng-show="more">show less</span>
+      <span ng-hide="more">show more</span>
+    </a>
+    
+    <span ng-show="more">
+      <br><b>Finished:</b> {{crawlStatus.completed_ms | date:'short'}}
+      <br><b>Pages Failed:</b> {{crawlStatus.pages_failed | number}}
+      <br><b>Concurrent requests:</b> {{crawlStatus.concurrent_requests}}
+      <br><b>Concurrent requests per domain:</b> {{crawlStatus.concurrent_requests_per_domain}}
+      <br><b>Duration:</b> {{crawlStatus.duration}}
+      <br><b>Error page percentage:</b> {{crawlStatus.error_page_percentage}}
+      <br><b>Error page percentage After Period:</b> {{crawlStatus.error_page_percentage_period}}
+      <br><b>Email:</b> {{crawlStatus.email}}
+      <br><b>Crawl ID:</b> {{crawlStatus.crawl_id}}
+      <br><b>jl file:</b> {{crawlStatus.jl_file_location}}
+      <br><b>Email:</b> {{crawlStatus.email}}
+    </span>
+  </div>
+  
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-harvest/style.css">
+
+<style>
+
+</style>

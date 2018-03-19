@@ -1,0 +1,70 @@
+  <a href=""
+     class="project-ctrl-toggle"
+     ng-class="{'project-ctrl-toggle-out':projectctrl_state}"
+     ng-click="projectctrl_state = !projectctrl_state">
+    {{projectStatus.name}} / cluster[{{projectStatus.selected_cluster_id}}]
+  </a>
+  
+  <div class="project-ctrl-topbar"
+       ng-class="{'topbar-show':projectctrl_state}">
+    <div>
+      <a href=""
+         class="btn btn-danger"
+         ng-click="">Reset Training</a>
+    </div>
+    <div>
+      <a href=""
+         class="btn btn-danger"
+         ng-click="">Train</a>
+    </div>
+  </div>  
+
+<style>
+/*********************************
+ * PROJECT-CTRL
+ *********************************/
+
+.project-ctrl-topbar {
+  position: fixed;
+  top: -100px;
+  left: 60px;
+  transition : 100ms top;
+  z-index: 2000;
+/*  background-color: #444;*/
+  color: white !important;
+  border: 1px solid rgba(3,159,244,.95);
+}
+
+.topbar-show {
+  top : 0;
+}
+
+.project-ctrl-toggle {
+  position: fixed;
+  top: -40px;
+  left: 60px;
+/*  padding: 20px 5px 0 5px;*/
+  padding: 40px 5px 2px 5px;
+  background : rgba(3,159,244,.95);
+  color: white;
+  z-index: 3000;
+  box-shadow: 5px 2px 10px rgba(67, 96, 111, 0.58);
+  height: 60px;
+}
+
+a.project-ctrl-toggle:hover, a.project-ctrl-toggle:focus {
+  color: white;
+}
+
+.project-ctrl-toggle-out {
+  top: 75px;
+  padding: 20px 5px 0 5px;
+  transition : 100ms top;
+}
+
+.project-ctrl-topbar .btn {
+  margin: 1px;
+  width: 120px;
+  border-radius: 0;
+}
+</style>

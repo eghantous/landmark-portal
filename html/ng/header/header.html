@@ -1,0 +1,78 @@
+<nav id="nav-header"
+     class="navbar navbar-default navbar-fixed-top"
+     >
+<!--     ng-controller="logoutCtrl">-->
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div style="font-size: 2em">
+        <a class="navbar-brand" href="/">
+          <img id="logo" src="/assets/img/landmark_logo.png">
+        </a>
+      </div>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#/project/create">CREATE PROJECT</a></li>
+        <li><a href="#/project/select">SELECT PROJECT</a></li>
+      </ul>
+      <!--
+      <ul class="nav navbar-nav navbar-right"
+          ng-show="userlogin">
+        <li role="presentation" class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false">
+             {{userlogin}} <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li ng-show="$root.isAdmin"><a href="#/project/new">Add Project</a></li>
+            <li ng-show="$root.isAdmin"><a href="#/user/list">Manage Users</a></li>
+            <li><a href="" ng-click="logOut()">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+-->
+    </div>
+
+  </div><!-- /.container-fluid -->
+</nav>
+<div id="header-spacer"></div>
+
+<style>
+  a.navbar-brand {
+    padding-top: 5px;  
+  }
+  
+  #logo {
+    height: 44px;  
+  }
+  
+  .sign-in-dropdown {
+    min-width: 250px;
+  }
+  
+  .sign-in-dropdown > li > form {
+    padding: 5px;
+  }
+  
+  #header-spacer {
+    padding-bottom: 60px; 
+  }
+
+  .admin_debug {
+    color: #777;
+    padding: 10px 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    position: relative;
+    display: block;
+  }
+</style>

@@ -1,0 +1,50 @@
+/*********************************
+ * STATUS-HEADER
+ *********************************/
+
+.status-header-container {
+  padding-top: 20px;
+  color: #c4c4c4;
+  border-bottom: 1px solid #dedede;
+  width: 100%;
+}
+
+.status-header-container > .row > div {
+  padding-bottom: 10px;
+  margin-bottom: -1px;
+}
+
+.status-header-container a {
+  color: #c4c4c4;
+  cursor: pointer;
+}
+
+/*
+.status-header-container i.fa {
+  font-size: 1.5em;
+}
+
+.heading {
+  vertical-align: text-bottom;
+}
+*/
+
+.active {
+  border-bottom: 1px solid #4ac9c5;
+}
+
+.active > a {
+  color: black !important;
+}
+
+.active > a > i.fa {
+  color: #4ac9c5 !important;
+}
+
+/*********************************
+ * PROJECT-SELECTION
+ *********************************/
+
+.project-selection {
+  margin-left: 5px;
+}

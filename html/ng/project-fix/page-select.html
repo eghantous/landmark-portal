@@ -1,0 +1,23 @@
+  <a href=""
+     class="pagelets-toggle"
+     ng-class="{'pagelets-toggle-out':show_pageselect_panel}"
+     ng-click="togglePanel('page-select')">
+    <i class="fa fa-files-o" aria-hidden="true"></i>
+  </a>
+  <div class="pagelets-sidebar"
+       ng-class="{'sidebar-show':show_pageselect_panel}">
+    <div class="pagelets-header">
+      Select page below
+    </div>
+    <div class="pagelets-panel"
+         ng-class="{'stretch-panel':pageNameEditting}">
+      <div ng-repeat="page in pages"
+           class="pagelet"
+           ng-class="{'active-page':page==activepage}">
+        
+<!--        <div ng-include="'ng/page-struct/template.html'"></div>-->
+        <page-struct projectid="projectid" clusterid="clusterid" page="page"></page-struct>
+
+      </div>
+    </div>
+  </div>

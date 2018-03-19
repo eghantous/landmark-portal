@@ -1,0 +1,266 @@
+  <div class="schema-sidebar"
+       ng-class="{'sidebar-show':show_schemaedit_panel}">
+    <a href=""
+       id="schema-toggle"       
+       ng-click="togglePanel('schema-edit')">
+      <i class="fa fa-sitemap" aria-hidden="true"></i>
+    </a>
+    <div id="pinpoint"
+         ng-show="lastScrollToId">
+      <i class="fa fa-map-marker scroll-to-node" aria-hidden="true"></i>
+      <a href=""
+         ng-click="scrollToPrev()">
+        <i class="fa fa-angle-up" aria-hidden="true"></i>
+      </a>
+      <a href=""
+         ng-click="scrollToNext()">
+        <i class="fa fa-angle-down" aria-hidden="true"></i>
+      </a>
+      <a href=""
+         ng-click="clearSearch()">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </a>
+    </div>
+    <div class="schema-panel">
+      <div class="schema-header">
+        Edit/Navigate the Schema
+      </div>
+
+      
+      <script type="text/ng-template" id="nodes_renderer.html">
+<!-- DRAG-AND-DROP CONTROL
+        <div class="pull-left"
+             ui-tree-handle><i class="fa fa-arrows" aria-hidden="true"></i>
+        </div>
+-->
+        <div class="tree-node-content">
+          
+          <table class="schema-table">
+            <tr>
+              <td class="schema-table-node">
+                <a class="btn btn-xs schema-expand-toggle-btn"
+                   ng-class="{'visibility-hidden':!node.list}"
+                   ng-click="node.collapsed = !node.collapsed"
+                   data-nodrag>
+                  <span class="glyphicon"
+                        ng-class="{
+                                  'glyphicon-chevron-right':node.collapsed,
+                                  'glyphicon-chevron-down':!node.collapsed
+                                  }">
+                  </span>
+                </a>
+
+
+                <span ng-show="node.schemaid=='0'"
+                      style="color:#676767">{{node.field}}
+                </span>
+                <span ng-show="node.schemaid!='0'"
+                      class="">
+                  <a href=""
+                     ng-click="scrollToId(node.schemaid)">
+                    <i class="fa fa-map-marker scroll-to-node" aria-hidden="true"></i>
+                  </a>
+                  <a class="btn btn-xs"
+                     ng-click="node.editValidation=!node.editValidation">
+                    <div ng-include="'/assets/img-3rd/validation.svg'"
+                         class="invalid-icon"></div>
+                  </a>
+                  <a href=""
+                     ng-click="node.locked=!node.locked"
+                     ng-show="node.locked">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                  </a>
+                  <a href=""
+                     ng-click="node.locked=!node.locked"
+                     ng-hide="node.locked">
+                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                  </a>
+                  <a href=""
+                     class="editable-field"
+                     editable-text="node.field"
+                     onbeforesave="renameSchemaNode(node, $data)">
+                      {{node.field}}
+                  </a>
+                </span>
+                
+              </td>
+
+              <td class="schema-table-controls">
+                
+                <a class="pull-right btn btn-xs schema-remove-btn"
+                   ng-click="removeSchemaNode(node, remove, this)"
+                   ng-class="{'visibility-hidden':node.schemaid=='0'}"
+                   data-nodrag>
+                  [x]
+                </a>
+<!--
+                <a class="pull-right btn btn-xs"
+                   ng-click="node.editValidation = true"
+                   style="margin-right: 8px;"
+                   data-nodrag>
+                  <span class="schema-add-text">[<i class="fa fa-pencil" aria-hidden="true"></i>] Validate</span>
+                </a>
+-->
+                <a class="pull-right btn btn-xs"
+                   ng-show="node.list"
+                   ng-click="node.addList = true"
+                   style="margin-right: 8px;"
+                   data-nodrag>
+                  <span class="schema-add-text">[+] List</span>
+                </a>
+                <a class="pull-right btn btn-xs"
+                   ng-show="node.list"
+                   ng-click="node.addItem = true"
+                   style="margin-right: 8px;"
+                   data-nodrag>
+                  <span class="schema-add-text">[+] Item</span>
+                </a>
+                
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Add New Item-->
+        <div class="tree-node-content new-node-form"
+             ng-show="node.addItem">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-success btn-secondary"
+                      type="button"
+                      ng-click="addItem(node, node.newItemName)"
+                      ng-disabled="!node.newItemName">Add</button>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   ng-model="node.newItemName"
+                   placeholder="new item name"
+                   ng-keyup="$event.keyCode == 13 && addItem(node, node.newItemName)">
+            <span class="input-group-btn">
+              <button class="btn btn-danger btn-secondary"
+                      type="button"
+                      ng-click="node.addItem=false"
+                      >Cancel</button>
+            </span>
+          </div>
+        </div>
+
+        <!-- Add New List -->
+        <div class="tree-node-content new-node-form"
+             ng-show="node.addList">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-success btn-secondary"
+                      type="button"
+                      ng-click="addList(node, node.newListName)"
+                      ng-disabled="!node.newListName">Add</button>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   ng-model="node.newListName"
+                   placeholder="new list name"
+                   ng-keyup="$event.keyCode == 13 && addList(node, node.newListName)">
+            <span class="input-group-btn">
+              <button class="btn btn-danger btn-secondary"
+                      type="button"
+                      ng-click="node.addList=false"
+                      >Cancel</button>
+            </span>
+          </div>
+        </div>
+
+        <!-- Edit Validation Rules -->
+        <div class="tree-node-content new-node-form"
+             ng-show="node.editValidation">
+          Validation Type: 
+          
+          <!-- Item Validation Rules -->
+          <div class="btn-group"
+               ng-show="!node.list">
+            <label class="btn btn-primary btn-radio"
+                   ng-class="{'active':node.validType=='NOT_NULL'}">
+              <input type="radio" ng-model="node.validType" value="NOT_NULL">
+              Not Null
+            </label>
+            <label class="btn btn-primary btn-radio"
+                   ng-class="{'active':node.validType=='IS_URL'}">
+              <input type="radio" ng-model="node.validType" value="IS_URL">
+              Is Url
+            </label>
+            <label class="btn btn-primary btn-radio"
+                   ng-class="{'active':node.validType=='USER_REGEX'}">
+              <input type="radio" ng-model="node.validType" value="USER_REGEX">
+              Regex
+            </label>
+          </div>
+          <input ng-show="node.validType=='USER_REGEX'"
+                 ng-model="node.validParam"
+                 type="text"
+                 placeholder="regex">
+          
+          <!-- List Validation Rules -->
+          <div class="btn-group"
+               ng-show="node.list">
+            <label class="btn btn-primary btn-radio"
+                   ng-class="{'active':node.validType=='MIN_ROWS'}">
+              <input type="radio" ng-model="node.validType" value="MIN_ROWS">
+              Min
+            </label>
+            <label class="btn btn-primary btn-radio"
+                   ng-class="{'active':node.validType=='MAX_ROWS'}">
+              <input type="radio" ng-model="node.validType" value="MAX_ROWS">
+              Max
+            </label>
+          </div>
+          <input ng-show="node.validType && node.list"
+                 ng-model="node.validParam"
+                 type="text">
+
+          <!-- Validation Rule Controls -->
+          <button class="btn btn-danger pull-right"
+                  type="button"
+                  ng-click="cancelAddValidation(node)"
+                  >Cancel</button>
+          <button class="btn btn-success pull-right"
+                  ng-disabled="!node.validType"
+                  ng-click="addValidation(node)"
+                  >Create</button>
+          
+        </div>
+
+        <!-- Existing Validation Rules -->
+        <div class="tree-node-content new-node-form"
+             ng-show="node.editValidation && node.validation.length > 0"
+             >
+          <label ng-repeat="rule in node.validation"
+                 class="validation-rule label label-danger">
+            {{rule.type}}
+            <span ng-show="rule.param">: {{rule.param}}</span>
+            <a href=""
+               ng-click="delValidation(node, rule, $index)">[x]</a>
+          </label>
+        </div>
+
+        <div ui-tree-nodes=""
+             ng-model="node.list"
+             ng-show="node.list && !node.collapsed">
+          <div ng-repeat="node in node.list"
+              ng-include="'nodes_renderer.html'"
+              ui-tree-node>
+          </div>
+        </div>
+      </script>
+      <div ui-tree>
+        <div id="tree-root"
+            ui-tree-nodes=""
+            ng-model="schema">
+          <div ng-repeat="node in schema"
+               ng-include="'nodes_renderer.html'"
+               ui-tree-node></div>
+        </div>
+      </div>
+
+
+      
+    </div>
+  </div>

@@ -1,0 +1,146 @@
+<div ng-controller="projectClusterCtrl">
+  <div ng-include="'ng/project-status-header/template.html'"></div>
+
+  <div ng-include="'ng/project-settings/template.html'"></div>
+  
+  <div class="container">
+    <div ng-show="!clusters">Please select a project above or start a new <a href='/collect'>collection</a>.</div>
+    <div class="selections selected-shadow"
+         ng-show="pageset">
+      <div ng-show="selected.length==0">
+        Select pages to move
+        <br>
+        <button type="button" class="btn btn-default" ng-click="cancelAddPages()">Cancel</button>
+      </div>
+      <div ng-show="selected.length>0">
+        ({{selected.length}}) selected
+        <br>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" ng-click="cancelAddPages()">Cancel</button>
+          <button type="button" class="btn btn-success" ng-click="movePages()">Move</button>
+        </div>
+      </div>
+    </div>
+    <div ng-show="clusters" class="clusters">
+      <div ng-if="clusters.length === 0">
+          We are still collecting and clustering data... refresh later or wait for your email to be sent.
+      </div>
+      <div ng-repeat="cluster in clusters"
+           class="cluster"
+           ng-class="{'target-cluster':cluster.selected}"
+           >
+        <div class="cluster-header">
+          <span class="cluster-id">
+            <label>
+              <input type="radio"
+                     name="targetcluster"
+                     ng-model="$parent.targetClusterIdx"
+                     ng-value="$index"
+                     ng-change="selectCluster($index, cluster)">
+              Cluster {{cluster.id}}
+            </label>
+          </span>
+          <div class="select-cluster">
+            <span ng-hide="cluster.selected || $parent.targetClusterIdx < 0">
+              <a href="" ng-click="mergeCluster($index, cluster)">Merge with Selected Cluster</a>
+            </span>
+          </div>
+        </div>
+
+        <!-- Train pages -->
+        <div class="clearfix pageset"
+             ng-class="{'add-page-container':pageset==cluster.train
+                       ,'selection-enabled':pageset!=null && pageset!=cluster.train}">
+          <h4 class="pageset-header trainset-header">TRAINING PAGES</h4>
+          <div class="page-container">
+            <div ng-repeat="page in cluster.train | limitTo:cluster.train_limit"
+                 class="pagelet"
+                 ng-class="{'selected-page':page.isSelected}"
+                 >
+
+<!--              <div ng-include="'ng/page-struct/template.html'"></div>-->
+              <page-struct projectid="projectid" clusterid="clusterid" page="page"></page-struct>
+
+              <label ng-show="addPagesInfo
+                              && (addPagesInfo.clusterId != cluster.id
+                                 || addPagesInfo.pageType != 'train')">
+                <input type="checkbox"
+                       ng-model="page.isSelected"
+                       ng-change="toggleSelect(cluster, 'train', page)"
+                       >
+                Move
+              </label>
+            </div>
+            
+            <a href="" class="show-more"
+               ng-show="cluster.train.length > cluster.train_limit"
+               ng-click="cluster.train_limit = Number.MAX_SAFE_INTEGER">
+              {{cluster.train.length - cluster.train_limit}} more...
+            </a>
+            <a href="" class="show-more"
+               ng-show="cluster.train_limit==Number.MAX_SAFE_INTEGER"
+               ng-click="cluster.train_limit = INITIAL_PAGE_LIMIT">
+              Show less
+            </a>
+            <div class="cluster-page train-shadow cluster-page-add"
+                 ng-click="beginAddPages(cluster, 'train')"
+                 ng-hide="pageset"
+                 >
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              <div>Add Pages</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test pages -->
+        <div class="clearfix pageset"
+             ng-class="{'add-page-container':pageset==cluster.test
+                       ,'selection-enabled':pageset!=null && pageset!=cluster.test}">
+          <h4 class="pageset-header testset-header">TEST PAGES</h4>
+          <div class="page-container">
+            <div ng-repeat="page in cluster.test | limitTo:cluster.test_limit"
+                 class="pagelet"
+                 ng-class="{'selected-page':page.isSelected}"
+                 >
+              
+<!--              <div ng-include="'ng/page-struct/template.html'"></div>-->
+              <page-struct projectid="projectid" clusterid="clusterid" page="page"></page-struct>
+
+              <label ng-show="addPagesInfo
+                              && (addPagesInfo.clusterId != cluster.id
+                                 || addPagesInfo.pageType != 'test')">
+                <input type="checkbox"
+                       ng-model="page.isSelected"
+                       ng-change="toggleSelect(cluster, 'test', page)"
+                       >
+                Move
+              </label>
+            </div>
+            
+            <a href="" class="show-more"
+               ng-show="cluster.test.length > cluster.test_limit"
+               ng-click="cluster.test_limit = Number.MAX_SAFE_INTEGER">
+              {{cluster.test.length - cluster.test_limit}} more...
+            </a>
+            <a href="" class="show-more"
+               ng-show="cluster.test_limit==Number.MAX_SAFE_INTEGER"
+               ng-click="cluster.test_limit = INITIAL_PAGE_LIMIT">
+              Show less
+            </a>
+            <div class="cluster-page test-shadow cluster-page-add"
+                 ng-click="beginAddPages(cluster, 'test')"
+                 ng-hide="pageset"
+                 >
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              <div>Add Pages</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-cluster/style.css">

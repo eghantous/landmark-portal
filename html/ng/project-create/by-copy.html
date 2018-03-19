@@ -1,0 +1,66 @@
+  <div ng-controller="byCopyCtrl"
+       ng-form="existingCrawlForm"
+       class="ng-dirty ng-invalid ng-invalid-required"
+       ng-hide="crawlStatus">
+<!--
+    <div class="row">
+      <h4>Copy Existing Project</h4>
+    </div>
+-->
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>Copy from:</label>
+      </div>
+      <div class="col-md-6">
+        <select name="repeatSelect"
+                ng-model="selectedProject"
+                ng-options="project as project.name for project in projects"
+                required></select>
+        <span class="help-block error" ng-show="existingCrawlForm.repeatSelect.$error.required">*</span>
+      </div>
+    </div>
+<!--
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>New project name:</label>
+      </div>
+      <div class="col-md-6">
+        <input name="crawlInfoProjectFolder"
+               type="text" 
+               ng-model="copyInfo.newName"
+               class="ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required"
+               required>
+        <span class="help-block error"
+              ng-show="existingCrawlForm.crawlInfoProjectFolder.$error.required">*</span>
+      </div>
+    </div>
+-->
+<!--
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>Notification email:</label>
+      </div>
+      <div class="col-md-6">
+        <input name="crawlInfoEmail" type="text" ng-model="existingCrawlInfo.notificationEmail" required="" class="ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required">
+        <span class="help-block error" ng-show="existingCrawlForm.crawlInfoEmail.$error.required">*</span>
+      </div>
+    </div>
+-->
+
+    <br>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <button ng-disabled="!projectName || !selectedProject.id"
+                class="btn btn-primary"
+                ng-click="copyProject()"
+                disabled="disabled">Copy</button>
+      </div>
+    </div>
+    <div class="row" ng-show="errorMsg2" style="margin-top:10px">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="alert alert-danger">{{errorMsg2}}</div>
+      </div>
+    </div>
+  </div>

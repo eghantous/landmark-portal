@@ -1,0 +1,125 @@
+.view-control {
+  padding: 10px 0 10px 60px;
+}
+
+.page-count {
+  font-size: 0.8em;
+  color: gray;
+}
+
+/************************************************
+ * GRID
+ ***********************************************/
+
+.table-col-striped > tbody td:nth-of-type(even),
+.table-col-striped > thead th:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+.verify-container {
+  margin-left: 60px;
+  margin-right: 20px;
+}
+
+.verify-container td {
+  padding: 3px !important;
+}
+
+/*************
+ * grid header
+ *************/
+
+th.page-header {
+  width: 110px;
+}
+
+th.cluster-header {
+  width: 75px;
+}
+
+th.field {
+  white-space: nowrap;
+}
+
+th.field > a.editable-field {
+  float: left;
+}
+
+th.field > a.field-btn {
+  margin-left: 5px;
+  visibility: visible;
+}
+
+th.field > a.delete-btn {
+  color: red;
+}
+
+th.field-validation-error {
+/*  background-color: #fcd8d8;*/
+  border-bottom: 2px solid red !important;
+}
+
+
+/*************************
+ * grid cells
+ *************************/
+
+tr.class-pass {
+/*  background-color: #d1f9dc;*/
+}
+
+tr.class-fail {
+/*  background-color: #ffc4c4;*/
+}
+
+/*************
+ * page cell
+ *************/
+
+td.page-validation-error {
+/*  background-color: #fcd8d8;*/
+  border-right: 2px solid red;
+}
+
+.col-page {
+  white-space: nowrap;
+}
+
+.rename-page-icon > i {
+  padding-right: 9px;  
+}
+
+
+/*************
+ * field cells
+ *************/
+
+table.fieldvalues tr:first-child > td {
+  border-top: none;
+}
+
+table.fieldvalues {
+  background-color: transparent !important;
+}
+
+td.cell-validation-error {
+  border: 2px solid red !important;
+}
+
+tr.value-validation-error > td {
+  background-color: #fcd8d8;
+/*  border-left: 2px solid red;*/
+}
+
+
+/*************
+ * misc
+ *************/
+
+.page-expand-row {
+  line-height: 1px !important;
+}
+
+.expand-page-icon {
+  padding-left: 35px;
+}

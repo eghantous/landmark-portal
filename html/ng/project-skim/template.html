@@ -1,0 +1,95 @@
+<div ng-controller="projectSkimCtrl">
+  <div ng-include="'ng/project-status-header/template.html'"></div>
+  
+<!--  <div ng-include="'ng/project-settings/template.html'"></div>-->
+
+  <div class="spinner" ng-hide="grid.fields">
+    <img src="/assets/img/spinner.gif">
+  </div>
+
+  <div class="verify-container" ng-show="grid.fields">
+    <table class="table table-col-striped fixed_headers">
+      <thead>
+        <th>Page</th>
+        <th ng-repeat="field in grid.fields"
+            class="field"
+            ng-class="{'field-validation-error':field.valid==false
+                      ,'mapped-column':field.mapped}"
+            ng-mouseover="onHover[field.name]=true"
+            ng-mouseleave="onHover[field.name]=false"
+            >
+<!--
+          <a href="" class="editable-field"
+             editable-text="field.name"
+             onbeforesave="renameSchemaNode(field, $data)">{{field.name}}</a>
+-->
+          <select name="fieldname"
+                  ng-options="fname as fname.displayName
+                              for fname in field.nameOptions
+                              track by fname.origName"
+                  ng-model="field.fnameOption"
+                  ng-change="renameSchemaNode(field)">
+          </select>
+          <a ng-click="updateFields()" href=""
+             class="field-btn"
+             ng-class="{'visibility-hidden':!onHover[field.name]}">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a>
+          <a ng-click="delField(field, $index)" href=""
+             class="field-btn delete-btn"
+             ng-class="{'visibility-hidden':!onHover[field.name]}">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </a>
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat-start="page in grid.pages">
+          <td class="col-page"
+              ng-class="{'page-validation-error':page.valid==false}">
+<!--            <div ng-include="'ng/page-struct/template.html'"></div>-->
+            <page-struct projectid="projectid" clusterid="clusterid" page="page"></page-struct>
+          </td>
+          <td ng-repeat="field in grid.fields"
+              ng-class="{'cell-validation-error':invalidcells[page.page_id][field.schemaid]
+                        ,'mapped-column':field.mapped}">
+            <table class="table fieldvalues">
+              <tbody>
+                <tr ng-repeat="field_item in page.fields[field.schemaid] 
+                               | limitTo: (page.isExpanded) ? page.fields[field.schemaid].length : 2"
+                    ng-class="{'value-validation-error':field_item.valid==false}">
+                  <td>
+                    {{field_item.value | limitTo: (page.isExpanded) ? field_item.value.length : 50 }}
+                    <span ng-show="!page.isExpanded
+                                   && field_item.value.length>50">...</span>
+                  </td>
+                </tr>
+                <tr ng-show="!page.isExpanded && page.fields[field.schemaid].length > 2">
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr ng-repeat-end>
+          <td colspan="999" class="page-expand-row">
+            <a href="" class="expand-page-icon"
+               ng-click="page.isExpanded=!page.isExpanded">
+              <i class="fa fa-caret-up" aria-hidden="true"
+                 ng-show="page.isExpanded"> less</i>
+              <i class="fa fa-caret-down" aria-hidden="true"
+                 ng-show="!page.isExpanded"> more</i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-skim/style.css">
+
+<style>
+
+</style>

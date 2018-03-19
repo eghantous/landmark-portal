@@ -1,0 +1,30 @@
+
+<div ng-controller="projectFixCtrl">
+  <div ng-include="'ng/project-status-header/template.html'"></div>
+  
+  <div ng-show="error" class="error">{{error}}</div>
+  
+  <div ng-include="'ng/project-fix/page-select.html'"></div>
+
+  <div ng-include="'ng/project-fix/schema-edit.html'"></div>
+
+  <div ng-include="'ng/project-settings/template.html'"></div>
+  
+  <div class="page_data-container">
+   <tree-grid tree-data="page_data"
+                 tree-control="tree_control"
+                 col-defs="col_defs"
+                 icon-leaf="fa fa-file-code-o"
+                 icon-expand="fa fa-angle-right"
+                 icon-collapse="fa fa-angle-down"
+                 template-url="/ng/project-fix/markup-edit.html"
+                 expand-on="expanding_property"
+                 ></tree-grid>  
+  </div>
+
+  <div ng-include="'ng/project-fix/page-preview.html'"></div>
+
+</div>
+  
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-fix/style.css">

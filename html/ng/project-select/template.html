@@ -1,0 +1,102 @@
+
+<div class="container" ng-controller="projectSelectCtrl">
+  
+  <div class="refresh-status">{{refreshStatus}}</div>
+  
+  <div ng-include="'ng/home/header.html'"></div>
+  <div class="spinner" ng-hide="projects">
+    <img src="/assets/img/spinner.gif">
+  </div>
+  
+  <div ng-show="projects && projects.length==0">
+    There are no projects here.
+  </div>
+
+  <div class="row" ng-show="projects.length > 0">
+    <div class="col-xs-12">
+      <table class="table">
+        <thead>
+          <th ng-click="sort('name')">
+            name
+            <i class="fa sort-icon"
+               ng-show="sortKey=='name'"
+               ng-class="{'fa-sort-amount-desc':reverse,'fa-sort-amount-asc':!reverse}"></i>
+          </th>
+          <th>
+            selected cluster
+          </th>
+          <th ng-click="sort('status')">
+            status
+            <i class="fa sort-icon"
+               ng-show="sortKey=='status'"
+               ng-class="{'fa-sort-amount-desc':reverse,'fa-sort-amount-asc':!reverse}"></i>
+          </th>
+          <th>
+            action
+          </th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="project in projects
+                            | startsWith:prefixFilter:'name'
+                            | orderBy:sortKey:reverse">
+<!--           <tr dir-paginate="project in projects
+                            | orderBy:sortKey:reverse 
+                            | emptyToEnd:sortKey
+                            | itemsPerPage:10 as pagedEntities"> -->
+            <td ng-switch="project.status">
+              <a ng-href="#/project/{{project.id}}/cluster"
+                 ng-switch-when="READY">{{project.name}}</a>
+              <a ng-href="#/project/{{project.id}}/cluster"
+                 ng-switch-when="PUBLISHED">{{project.name}}</a>
+              <a ng-href="#/project/{{project.id}}/harvest"
+                 ng-switch-default>{{project.name}}</a>
+            </td>
+            <td>
+              <span ng-show="project.selected_cluster_id">Cluster {{project.selected_cluster_id}}</span>
+            </td>
+            <td>
+              <span class="label"
+                    ng-class="{'label-default':project.status=='NEW'
+                              ,'label-primary':project.status=='LEARNING'||project.status=='PUBLISHED'
+                              ,'label-success':project.status=='READY'
+                              ,'label-info':project.status=='HARVESTING'||project.status=='CLUSTERING'
+                              ,'label-danger':project.status=='ERROR'}">
+                {{project.status}}
+              </span>
+            </td>
+            <td>
+              <div>
+                <a href=""
+                   ng-click="delete(project)">delete</a>
+                &nbsp;&nbsp;
+                <a ng-show="project.status=='READY'||project.status=='PUBLISHED'" href=""
+                   ng-click="reset(project)">reset</a>
+                &nbsp;&nbsp;
+                <a ng-show="project.status=='READY'||project.status=='PUBLISHED'" href=""
+                   ng-click="clone(project)">copy</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!--   <div class="row" ng-show="projects && projects.length > 10">
+    <div class="col-xs-12">
+      <div class="text-centered">
+        <dir-pagination-controls></dir-pagination-controls>
+        <form ng-submit="gotoPage(pageNum)">
+          Goto Page
+          <input type="text" ng-model="pageNum">
+        </form>
+      </div>
+    </div>
+  </div> -->
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-select/style.css">
+
+<style>
+
+</style>

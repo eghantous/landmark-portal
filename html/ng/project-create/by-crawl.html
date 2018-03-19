@@ -1,0 +1,178 @@
+  <div ng-controller="byCrawlCtrl"
+       class="ng-dirty ng-invalid ng-invalid-required"
+       ng-hide="crawlStatus">
+<!--
+    <div class="row">
+      <h4>Perform New Collection</h4>
+    </div>
+-->
+    <div class="row">
+      <div class="alert alert-success ng-binding ng-hide" ng-show="crawlMsg"></div>
+    </div>
+<!--
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>Project name:</label>
+      </div>
+      <div class="col-md-6">
+        <input name="crawlInfoProjectFolder"
+               type="text"
+               ng-model="crawlInfo.name"
+               class="ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required"
+               required>
+        <span class="help-block error"
+              ng-show="crawlForm.crawlInfoProjectFolder.$error.required">*</span>
+      </div>
+    </div>
+-->
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>Notification email:</label>
+      </div>
+      <div class="col-md-6">
+        <a href=""
+           class="editable-field"
+           editable-text="email">
+          {{email}}
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>Starting Url:</label>
+      </div>
+      <div class="col-md-6">
+        <input name="crawlInfoUrl"
+               type="text"
+               ng-model="crawlInfo.url"
+               class="ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required"
+               required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>Depth limit:</label>
+      </div>
+      <div class="col-md-6">
+        <input name="crawlInfoDepth"
+               type="number"
+               ng-model="crawlInfo.depth"
+               placeholder="5"
+               class="ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required"
+               required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <label>Prefer Pagination:</label>
+      </div>
+      <div class="col-md-6">
+        <input type="checkbox" ng-model="crawlInfo.prefer_pagination">
+<!--
+        <input name="crawlInfoDepth"
+               type="number"
+               ng-model="crawlInfo.prefer_pagination"
+               placeholder="5"
+               class="ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required"
+               required>
+-->
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <a href=""
+           ng-click="more=!more">
+          <span ng-show="more">show less</span>
+          <span ng-hide="more">show more</span>
+        </a>
+      </div>
+    </div>
+    
+    <div ng-show="more">
+      <div class="row">
+        <div class="col-md-3 text-right">
+          <label>Concurrent requests:</label>
+        </div>
+        <div class="col-md-6">
+          <input name="crawlInfoConReq"
+                 type="number"
+                 ng-model="crawlInfo.concurrent_requests"
+                 placeholder="16"
+                 class="ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required"
+                 required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 text-right">
+          <label>Concurrent requests per domain:</label>
+        </div>
+        <div class="col-md-6">
+          <input name="crawlInfoConReqPerDomain"
+                 type="number"
+                 ng-model="crawlInfo.concurrent_requests_per_domain"
+                 placeholder="16"
+                 class="ng-pristine ng-untouched ng-valid ng-empty"
+                 required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 text-right">
+          <label>Duration:</label>
+        </div>
+        <div class="col-md-6">
+          <input name="crawlInfoDuration"
+                 type="number"
+                 ng-model="crawlInfo.duration"
+                 placeholder="60"
+                 class="ng-valid ng-dirty ng-touched ng-empty"
+                 required>
+          <span class="help-block inline">(in minutes)</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 text-right">
+          <label>Error page percentage:</label>
+        </div>
+        <div class="col-md-6">
+          <input name="crawlInfoErrPercent"
+                 type="number"
+                 ng-model="crawlInfo.error_page_percentage"
+                 placeholder="50"
+                 class="ng-pristine ng-untouched ng-valid ng-empty"
+                 required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 text-right">
+          <label>Error page percentage After Period:</label>
+        </div>
+        <div class="col-md-6">
+          <input name="crawlInfoErrPercentAfterPeriod"
+                 type="number"
+                 ng-model="crawlInfo.error_page_percentage_period"
+                 placeholder="30"
+                 class="ng-pristine ng-untouched ng-valid ng-empty"
+                 required>
+          <span class="help-block">(in minutes)</span>
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <button ng-disabled="!projectName || !crawlInfo.url"
+                class="btn btn-primary"
+                ng-click="harvest()"
+                disabled="disabled">Crawl</button>
+      </div>
+    </div>
+    <div class="row" ng-show="errorMsg" style="margin-top:10px">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="alert alert-danger">{{errorMsg}}</div>
+      </div>
+    </div>
+  </div>

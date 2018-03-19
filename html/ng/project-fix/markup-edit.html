@@ -1,0 +1,191 @@
+<!--
+NOTE: grid-tree-directive doesn't have scope of parent controller.
+In order to pass $scope variables and functions, you must pass it through the treeControl.
+In the parent controller, it's the $scope.tree_control variable.
+-->
+<table class="table tree-grid">
+<!--
+    <thead class="">
+      <tr>
+        <th>{{expandOn.displayName || expandOn.field || expandOn }}</th>
+        <th ng-repeat="col in colDefs">{{col.displayName || col.field}}</th>
+      </tr>
+    </thead>
+-->
+  <thead class="data_page-header">
+    <tr>
+      <th>
+        <input
+            bs-switch
+            ng-model="treeControl.page_state.isPageExpanded"
+            switch-change="treeControl.togglePageExpand(treeControl.page_state.isPageExpanded)"
+            type="checkbox"
+            switch-size="mini"
+            switch-animate="true"
+            switch-label="tree"
+            switch-on-text="expanded"
+            switch-off-text="collapsed"
+            ng-true-value="true"
+            ng-false-value="false">
+      </th>
+      <th>Extractions</th>
+      <th>
+        Markup
+        <input
+            bs-switch
+            ng-model="treeControl.page_state.isRowValuesExpanded"
+            type="checkbox"
+            switch-size="mini"
+            switch-animate="true"
+            switch-label="row_values"
+            switch-on-text="shown"
+            switch-off-text="hidden"
+            ng-true-value="true"
+            ng-false-value="false"
+            class="pull-right"> 
+      </th>
+    </tr>
+  </thead>
+    
+  <tbody>
+    <tr ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" 
+        ng-class="{'{{'level-' + row.level}}': true
+                  ,'active':row.branch.selected
+                  ,'hasChildren':row.branch.children.length > 0
+                  ,'isPinpointed':row.branch.isPinpointed
+                  ,'validation-error':row.branch.valid==false
+                  }"
+        class="tree-grid-row"
+        id="row-{{row.branch.markupid}}"
+        >
+      <td class="field-name ellipsis" width="1%">
+        <a ng-click="user_clicks_branch(row.branch)">
+          <i ng-class="row.tree_icon"
+             ng-click="row.branch.expanded = !row.branch.expanded" 
+             class="indented tree-icon"></i>
+        </a>
+        <span class="indented tree-label">
+          <span ng-switch="row.branch['type']">
+            <span ng-switch-when="row">
+              Row[{{row.branch[expandOn.field]}}]
+              <a href="" ng-click="treeControl.delRow(row)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </a>
+            </span>
+            <span ng-switch-when="list">
+              <i class="fa fa-list-ol" aria-hidden="true"></i>
+              {{row.branch[expandOn.field]}}
+              <a href="" ng-click="row.branch.addRow=true">
+                <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+              </a>
+              <input type="number" class="add-row-input"
+                     placeholder="row#"
+                     ng-model="row.branch.addRowVal"
+                     ng-show="row.branch.addRow"
+                     ng-keyup="$event.keyCode == 13 && treeControl.addRow(row, row.branch.addRowVal)"
+                     >
+              <a href=""
+                 ng-show="row.branch.addRow"
+                 ng-click="treeControl.addRow(row, row.branch.addRowVal)">
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </a>
+              <a href=""
+                 ng-show="row.branch.addRow"
+                 ng-click="row.branch.addRow=false">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+            </span>
+            <span ng-switch-default>{{row.branch[expandOn.field]}}</span>
+          </span>
+        </span>
+      </td>
+      <td width="100%"
+          class="ellipsis">
+        <a href=""
+           ng-click="row.branch.showValidationRule=!row.branch.showValidationRule">
+          <div ng-include="'/assets/img-3rd/validation.svg'"
+               ng-show="row.branch.valid==false"
+               class="invalid-icon"
+               ></div>
+        </a>
+        
+        <span class="validation-rule animated label label-danger"
+              ng-class="{'slideInLeft':row.branch.showValidationRule
+                        ,'hidden':!row.branch.showValidationRule}"
+              ng-repeat="rule in row.branch.validation | filter:{valid:false}">
+          {{rule.type}}
+          <span ng-show="rule.param">: {{rule.param}}</span>
+        </span>
+        
+<!--
+  <a ng-click="toggle=!toggle">toggle</a>
+<h1 class="animated"
+    ng-class="{'slideInLeft':toggle
+              ,'slideOutLeft':!toggle}">Example</h1>
+-->
+        
+<!--
+        ng-class="{'slideInRight':row.branch.showValidationRule
+                        ,'slideOutLeft':!row.branch.showValidationRule}"
+-->
+        <div class="field-value ellipsis"
+              ng-class="{'visible': row.branch.children.length == 0
+                                    || treeControl.page_state.isRowValuesExpanded
+                        ,'white-space-normal': row.branch.showMore
+                        }">
+          {{row.branch.Extraction}}
+          <a href=""
+             class="ellipsis-link"
+             ng-click="row.branch.showMore=true"></a>
+        </div>
+        <a href=""
+           ng-show="row.branch.showMore"
+           ng-click="row.branch.showMore=false">show less</a>
+      </td>
+      <td width="100%"
+          class="ellipsis">
+        <span class="field-value ellipsis"
+              ng-class="{'visible': row.branch.children.length == 0
+                                    || treeControl.page_state.isRowValuesExpanded
+                        }">
+          <span ng-hide="row.branch.splitMarkup">
+            <a href=""
+               ng-click="row.branch.splitMarkup=!row.branch.splitMarkup">
+              <div ng-include="'/assets/img-3rd/split-field.svg'"
+                   class="split-field"></div>
+            </a>
+            <a href=""
+               class="editable-field"
+               ng-click="treeControl.applyHighlight(row.branch, 'Markup')"
+               editable-textarea="row.branch['Markup']"
+               onaftersave="treeControl.splitMarkup(row)">
+              {{row.branch['Markup'] || '[empty]'}}
+            </a>
+          </span>
+          <span ng-show="row.branch.splitMarkup">
+            <a href=""
+               ng-click="row.branch.splitMarkup=!row.branch.splitMarkup">
+              <div ng-include="'/assets/img-3rd/combine-field.svg'"
+                   class="combine-field"></div>
+            </a>
+            <a href=""
+               class="editable-field"
+               ng-click="treeControl.applyHighlight(row.branch, 'Markup')"
+               editable-text="row.branch['markupBeg']"
+               onaftersave="treeControl.combineMarkup(row)">
+              {{row.branch['markupBeg'] || '[empty]'}}
+            </a>
+            &nbsp;...&nbsp;
+            <a href=""
+               class="editable-field"
+               ng-click="treeControl.applyHighlight(row.branch, 'Markup')"
+               editable-text="row.branch['markupEnd']"
+               onaftersave="treeControl.combineMarkup(row)">
+              {{row.branch['markupEnd'] || '[empty]'}}
+            </a>
+          </span>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,60 @@
+
+<div ng-controller="projectDeliverCtrl">
+  <div ng-include="'ng/project-status-header/template.html'"></div>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+
+        <table class="table table-striped" style="margin-top: 50px;">
+          <tr>
+            <td><!-- Project: <b>{{projectid}}</b> --></td>
+<!--
+            <td>
+                <a href="" ng-click="deleteProject(projectid)"><i class="glyphicon glyphicon-trash" style="color:red;"/></a>
+            </td>
+-->
+            <td>
+              <a ng-href="/project/{{projectid}}/cluster/{{clusterid}}/data/rules"
+                 target="_blank"
+                 download>
+              Rules <i class="glyphicon glyphicon-cloud-download"/>
+              </a>
+            </td>
+<!--            <td><a href="/downloads/{{projectid}}/markup" target="_blank" download>Markup <i class="glyphicon glyphicon-cloud-download"/></a></td>-->
+            <td>
+              <a ng-href="/project/{{projectid}}/cluster/{{clusterid}}/data/csv"
+                 target="_blank"
+                 download>
+                CSV <i class="glyphicon glyphicon-cloud-download"/>
+              </a>
+            </td>
+            <td>
+              <a ng-href="/project/{{projectid}}/cluster/{{clusterid}}/data/json"
+                 target="_blank"
+                 download>
+                Json <i class="glyphicon glyphicon-cloud-download"/>
+              </a>
+            </td>
+            <td>
+              <a href=""
+                 ng-click="publish()">
+                Publish <i class="glyphicon glyphicon-cloud-upload"/>
+              </a>
+            </td>
+          </tr>
+        </table>      
+
+        <div ng-show="error" class="alert alert-danger">{{error}}</div>
+        <div ng-show="success" class="alert alert-success">{{success}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-deliver/style.css">
+
+<style>
+
+</style>

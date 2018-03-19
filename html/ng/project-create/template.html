@@ -1,0 +1,55 @@
+<div class="container" ng-controller="projectCreateCtrl">
+  <div ng-include="'ng/home/header.html'"></div>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <td class="project-name-label-col">
+          <label>Create a new project</label>
+        </td>
+        <td class="project-name-input-col">
+          <input name="projectName"
+                 type="text"
+                 class="form-control ng-dirty ng-touched ng-empty ng-invalid ng-invalid-required"
+                 ng-model="projectName"
+                 placeholder="project name"
+                 required>
+<!--
+          <div class="input-group">
+            <input type="text" size="20"
+                   class="form-control"
+                   ng-model="uv.unitValue"
+                   ng-keyup="$event.keyCode == 13 ? search() : null">
+            <div class="input-group-addon">
+              <a href=""
+                 ng-click="query.record.splice($index, 1)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+-->
+        </td>
+      </tr>
+    </thead>
+  </table>
+  
+  <uib-tabset ng-show="projectName"
+              active="active"
+              class="create-project-tabs">
+    <uib-tab index="0" heading="By Crawling">
+      <div ng-include="'ng/project-create/by-crawl.html'"></div>
+    </uib-tab>
+    <uib-tab index="1" heading="By Copying">
+      <div ng-include="'ng/project-create/by-copy.html'"></div>
+    </uib-tab>
+    <uib-tab index="2" heading="By Urls">
+      <div ng-include="'ng/project-create/by-urls.html'"></div>      
+    </uib-tab>
+  </uib-tabset>
+  
+
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-create/style.css">
+

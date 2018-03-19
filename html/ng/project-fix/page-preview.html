@@ -1,0 +1,56 @@
+  <div class="page_view-container">
+    <div class="page_view-header"
+         ng-class="{'page_view-active': pageView}">
+      <div ng-show="highlightedText"
+           class="highlighted-text-container">
+        Highlighted: <b>{{highlightedText}}</b>
+        <a href=""
+           class="pull-right"
+           ng-click="clearHighlight()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+      </div>
+      <a href=""
+         ng-click="pageView='image'">
+        <i class="fa fa-file-image-o" aria-hidden="true"></i>
+      </a>
+      <a href=""
+         ng-click="pageView='source'">
+        <i class="fa fa-code" aria-hidden="true"></i>
+      </a>
+      <a href=""
+         ng-click="pageView='cached'">
+        <i class="fa fa-file-text" aria-hidden="true"></i>
+      </a>
+<!--
+      <a href=""
+         ng-click="pageView='live'">
+        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+      </a>
+-->
+      <a href=""
+         ng-show="pageView"
+         class="pull-right"
+         ng-click="pageView=null">
+<!--        <i class="fa fa-times" aria-hidden="true"></i>-->
+        close
+      </a>
+    </div>
+    <div class="page_view-content"
+         ng-show="pageView"
+         ng-mouseup="highlightText()">
+      <img ng-src="{{activepage.thumbnail_url}}"
+           class="page_view-screenshot"
+           ng-show="pageView=='image'">
+      <pre ng-bind="cachedPageSource"
+         ng-show="pageView=='source'"></pre>
+      <div id="cachedPageView"
+         ng-show="pageView=='cached'"></div>
+<!--
+      <p ng-bind-html="cachedPageSource"
+         ng-show="pageView=='cached'"></p>
+      <div id="livePageView"
+         ng-show="pageView=='live'"></div>
+-->
+    </div>
+  </div>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" ng-app="Landmark">
+<head>
+  <!-- #### CSS #### -->
+  <link rel="stylesheet" type="text/css"
+        href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"
+        href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+  <link rel="stylesheet" type="text/css"
+        href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" type="text/css"
+      href="/assets/css-3rd/bootstrap-switch-3..3.4.min.css">
+  <link rel="stylesheet" type="text/css"
+      href="/assets/css-3rd/progress-wizard.min.css">
+  <link rel="stylesheet" type="text/css"
+        href="/assets/css-3rd/xeditable-0.6.0.min.css">
+  <link rel="stylesheet" type="text/css"
+        href="/assets/css-3rd/treeGrid-0.4.0.mod.css">
+  <link rel="stylesheet" type="text/css"
+        href="/assets/css-3rd/angular-ui-tree-2.22.5.min.css">
+  <link rel="stylesheet" type="text/css"
+      href="/assets/css-3rd/animate-3.5.2.min.css">
+
+  <link rel="stylesheet" type="text/css"
+        href="/assets/css/shared.css">
+
+  <!-- #### JS #### -->
+
+  <!-- jquery/angular/bootstrap plugins -->
+  <script
+    src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"
+    crossorigin="anonymous">
+  </script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+  </script>
+  <script src="/assets/js-3rd/bootstrap-switch-3.3.4.min.js"></script>
+  <script src="/assets/js-3rd/angular-1.6.2.min.js"></script>
+  <script src="/assets/js-3rd/angular-route-1.6.2.min.js"></script>
+  <script src="/assets/js-3rd/angular-sanitize-1.6.2.min.js"></script>
+  <script src="/assets/js-3rd/ui-bootstrap-tpls-2.5.0.min.js"></script>
+  <script src="/assets/js-3rd/angular-bootstrap-switch-0.5.1.min.js"></script>
+  <script src="/assets/js-3rd/xeditable-0.6.0.min.js"></script>
+  <script src="/assets/js-3rd/tree-grid-directive-0.4.0.js"></script>
+  <script src="/assets/js-3rd/angular-ui-tree-2.22.5.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js"></script>
+
+  
+  <!-- angularjs app modules -->
+  <script src="/assets/js/app.js"></script>
+<!--  <script src="/assets/js/services.js"></script>-->
+  <script src="/ng/dirPagination/dirPagination.js"></script>
+  <script src="/ng/dirPageStruct/directive.js"></script>
+<!--  <script src="/ng/header/logoutCtrl.js"></script>-->
+  <script src="/ng/home/controller.js"></script>
+  <script src="/ng/project-status-header/controller.js"></script>
+  <script src="/ng/project-create/controller.js"></script>
+  <script src="/ng/project-create/by-crawl-controller.js"></script>
+  <script src="/ng/project-create/by-copy-controller.js"></script>
+  <script src="/ng/project-create/by-urls-controller.js"></script>
+  <script src="/ng/project-select/controller.js"></script>
+  <script src="/ng/project-harvest/controller.js"></script>
+  <script src="/ng/project-cluster/controller.js"></script>
+  <script src="/ng/project-skim/controller.js"></script>
+  <script src="/ng/project-fix-redirect/controller.js"></script>
+  <script src="/ng/project-fix/controller.js"></script>
+  <script src="/ng/project-verify/controller.js"></script>
+  <script src="/ng/project-verify/classifier-config-controller.js"></script>
+  <script src="/ng/project-deliver/controller.js"></script>
+  <script src="/ng/project-redirect/controller.js"></script>
+  <script src="/ng/project-settings/controller.js"></script>
+
+
+  <!-- misc -->
+  
+  <script src="/ng/google-auth/controller.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id"
+        content="919911413433-evdrd0ue89lr0hq0a4ttfhnf8kl33eg0.apps.googleusercontent.com">
+
+</head>
+<body ng-controller="googleAuthCtrl">
+
+<!--  <div ng-include="'ng/header/header.html'"></div>-->
+<!--   <center class="login"
+          ng-hide="profile">
+    <p>You must login with your Google account to explore this site.</p>
+    <p class="error">{{loginError}}</p>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  </center>
+  
+  <a href=""
+     class="logoff"
+     ng-show="profile && !loginError"
+     ng-click="logOut()">
+    <img class="profile-img"
+       ng-src="{{profile.img}}">Sign out
+  </a> -->
+
+  <div ng-view 
+       style="height: 100%"></div>
+  
+<script>
+  /************************************
+   * Google Auth
+   ************************************/
+  function onSignIn(googleUser) {
+    angular.element($('body')).scope().logIn(googleUser);
+  }
+
+</script>
+  
+<style>
+  center.login {
+    padding-top: 100px;
+  }
+  
+  .profile-img {
+    border-radius: 50px;
+    width: 40px;
+    display: block;
+  }
+  
+  .logoff {
+    position: fixed;
+    top: 10px;
+    right: 2px;
+    text-align: -webkit-center;
+  }
+</style>
+  
+</body>
+</html>

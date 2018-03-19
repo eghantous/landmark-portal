@@ -1,0 +1,112 @@
+<div ng-mouseover="page.nameEdit=true"
+     ng-mouseleave="page.nameEdit=false">
+  <div class="ellipsis page-name"
+        editable-text="page.file"
+        e-form="pageFileForm"
+        onbeforesave="renamePage(page, $data)">
+    <a ng-href="/project/{{projectid}}/cluster/{{clusterid}}/page/{{page.page_id}}/html/cached"
+       target="_blank">
+      {{page.file}}
+    </a>
+  </div>
+  <a href=""
+     class="rename-page-icon"
+     ng-class="{'visibility-hidden':!page.nameEdit}"
+     ng-click="$parent.$parent.pageNameEditting=true; pageFileForm.$show()"
+     ng-hide="pageFileForm.$visible">
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+  </a>
+</div>
+
+<div class="page-icons">
+  <a ng-href="{{page.thumbnail_url}}"
+       class="page-img" target="_blank"
+       uib-tooltip="{{page.file}} screenshot"
+       tooltip-class="tooltip-custom"
+       tooltip-placement="right">
+    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+  </a>
+  <a ng-href="/project/{{projectid}}/cluster/{{clusterid}}/page/{{page.page_id}}/html/source"
+       class="page-code" target="_blank"
+       data-placement="right"
+       uib-tooltip="{{page.file}} source"
+       tooltip-class="tooltip-custom"
+       tooltip-placement="right">
+    <i class="fa fa-code" aria-hidden="true"></i>
+  </a>
+<!--
+  <a ng-href="/project/{{projectid}}/cluster/{{clusterid}}/page/{{page.page_id}}/html/cached"
+       class="page-cached" target="_blank"
+       uib-tooltip="{{page.file}} cached"
+       tooltip-class="tooltip-custom"
+       tooltip-placement="right">
+    <i class="fa fa-file-text" aria-hidden="true"></i>
+  </a>
+-->
+  <a ng-href="{{page.live_url}}"
+       class="page-live" target="_blank"
+       uib-tooltip="{{page.file}} live"
+       tooltip-class="tooltip-custom"
+       tooltip-placement="right">
+    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+  </a>
+</div>
+  <a ng-href="/project/{{projectid}}/cluster/{{clusterid}}/page/{{page.page_id}}/html/cached"
+       target="_blank">
+  <img ng-src="{{page.thumbnail_url}}"
+       uib-tooltip="{{page.live_url}}"
+       tooltip-placement="auto"
+       class="thumbnail"
+       ng-class="{'round':page.type=='train'}">
+</a>
+
+<style>
+.page-name {
+  max-width: 80px;
+  float: left;
+  padding-right: 5px;
+}
+  
+.rename-page-icon > i {
+  padding-right: 9px;  
+}
+
+.tooltip-custom {
+  width: 130px;
+}
+  
+.tooltip-inner {
+  max-width: 1000px !important;
+}
+
+.page-icons {
+  position: relative;
+}
+
+.page-icons > a {
+  position: absolute;
+}
+
+.page-img {
+/*  top: 20px;*/
+}
+
+.page-code {
+  top: 20px;
+}
+
+.page-cached {
+  top: 40px;
+}
+
+.page-live {
+  top: 40px;
+/*  top: 60px;*/
+}
+
+img.thumbnail {
+  height: 75px;
+  margin-left: 24px;
+  margin-bottom: 5px
+}
+</style>

@@ -1,0 +1,86 @@
+<div id="project-status-header"
+     ng-controller="projectStatusHeaderCtrl">
+  <div class='container status-header-container'>
+  
+
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-2">
+        <a ng-href="#/">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="heading">Home</span>
+        </a>
+      </div>
+      <div class="col-xs-2"
+           ng-class="{'active':step=='cluster'}">
+        <a ng-href="#/project/{{projectid}}/cluster">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="heading">Review Cluster</span>
+        </a>
+      </div>
+      <!-- For when you have $parent.clusterid -->
+      <div class="col-xs-2"
+           ng-class="{'active':step=='skim'||step=='fix'}"
+           ng-show="$parent.clusterid">
+        <a ng-href="#/project/{{projectid}}/cluster/{{$parent.clusterid}}/skim">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="heading">Skim</span>
+        </a>
+<!--        |
+        <a ng-href="#/project/{{projectid}}/cluster/{{$parent.clusterid}}/fix">
+          Fix
+        </a> -->
+      </div>
+      <div class="col-xs-2"
+           ng-class="{'active':step=='verify'}"
+           ng-show="$parent.clusterid">
+        <a ng-href="#/project/{{projectid}}/cluster/{{$parent.clusterid}}/verify">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="heading">Verify</span>
+        </a>
+      </div>
+      <div class="col-xs-2"
+           ng-class="{'active':step=='deliver'}"
+           ng-show="$parent.clusterid">
+        <a ng-href="#/project/{{projectid}}/cluster/{{$parent.clusterid}}/deliver">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="heading">Deliver</span>
+        </a>
+      </div>
+      <!-- For when $parent.clusterid does not exist -->
+      <div class="col-xs-2"
+           ng-class="{'active':step=='skim'||step=='fix'}"
+           ng-hide="$parent.clusterid">
+        <a ng-href="#/project/{{projectid}}/redirect/skim">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="heading">Skim</span>
+        </a>
+        |
+        <a ng-href="#/project/{{projectid}}/redirect/fix">
+          Fix
+        </a>
+      </div>
+      <div class="col-xs-2"
+           ng-class="{'active':step=='deliver'}"
+           ng-hide="$parent.clusterid">
+        <a ng-href="#/project/{{projectid}}/redirect/deliver">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="heading">Deliver</span>
+        </a>
+      </div>      
+    </div>
+
+  </div>
+
+  <div class="project-selection">
+    You have selected:
+    <span class="label label-default">{{projectStatus.name}}</span>
+    <span class="label label-default"
+          ng-show="clusterid">Cluster[{{$parent.clusterid}}]</span>
+    <span class="label label-default"
+          ng-show="$parent.pagename">{{$parent.pagename}}</span>
+  </div>
+  
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-status-header/style.css">

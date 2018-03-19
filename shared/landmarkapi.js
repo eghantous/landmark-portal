@@ -1,0 +1,1 @@
+exports.server = process.env.LANDMARK_REST_URL||'http://localhost:5000';

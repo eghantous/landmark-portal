@@ -1,0 +1,145 @@
+<div ng-controller="projectVerifyCtrl">
+  <div ng-include="'ng/project-status-header/template.html'"></div>
+  
+  <div ng-include="'ng/project-verify/classifier-config.html'"></div>
+  
+<!--  <div ng-include="'ng/project-settings/template.html'"></div>-->
+  
+  <div class="view-control">
+<!--
+    <input bs-switch
+           ng-model="clusterMode"
+           type="checkbox"
+           switch-size="small"
+           switch-label="Cluster[{{clusterid}}]"
+           switch-on-text="Include"
+           switch-off-text="Exclude"
+           switch-change="getVerifyData()"
+           ng-true-value="'in'"
+           ng-false-value="'out'">
+-->
+<!--
+    <label>Classification: </label>
+    <input bs-switch
+           ng-model="classMode"
+           type="checkbox"
+           switch-size="small"
+           switch-on-text="Passed ({{grid.pages.length}} pages)"
+           switch-off-text="Failed"
+           ng-true-value="1"
+           ng-false-value="0">
+-->
+    <label>
+      <input type="radio"
+           ng-model="classMode"
+           ng-value="1">
+      Passed Classification
+      <span class="page-count">({{(grid.pages | filter : {valid : 1}).length}} of {{grid.pages.length}} pages)</span>
+    </label>
+    <label>
+      <input type="radio"
+             ng-model="classMode"
+             ng-value="0">
+      Failed Classification
+      <span class="page-count">({{(grid.pages | filter : {valid : 0}).length}} of {{grid.pages.length}} pages)</span>
+
+    </label>
+<!--    <span ng-show="grid.fields">&nbsp;{{(grid.pages | filter : {valid : classMode}).length}} page{{(grid.pages | filter : {valid : classMode}).length == 1 ? '' : 's'}}</span>-->
+  </div>
+  
+  <div class="spinner" ng-hide="grid.fields">
+    <img src="/assets/img/spinner.gif">
+  </div>
+
+  <div class="verify-container" ng-show="grid.fields">
+    <table class="table table-col-striped fixed_headers">
+      <thead>
+        <th class="page-header">Page</th>
+        <th class="cluster-header">Cluster</th>
+        <th ng-repeat="field in grid.fields"
+            class="field"
+            ng-class="{'field-validation-error':field.valid==false}"
+            ng-mouseover="onHover[field.name]=true"
+            ng-mouseleave="onHover[field.name]=false"
+            >
+<!--
+          <a href="" class="editable-field"
+             editable-text="field.name"
+             onbeforesave="renameSchemaNode(field, $data)">{{field.name}}</a>
+-->
+<!--
+          <select name="fieldname"
+                  ng-options="fname as fname.displayName
+                              for fname in field.nameOptions
+                              track by fname.origName"
+                  ng-model="field.fnameOption"
+                  ng-change="renameSchemaNode(field)">
+          </select>
+          <a ng-click="updateFields()" href=""
+             class="field-btn"
+             ng-class="{'visibility-hidden':!onHover[field.name]}">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+          </a>
+          <a ng-click="delField(field, $index)" href=""
+             class="field-btn delete-btn"
+             ng-class="{'visibility-hidden':!onHover[field.name]}">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </a>
+-->
+          {{field.name}}
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat-start="page in grid.pages | filter : {valid : classMode}"
+            ng-class="page.valid==1 ? 'class-pass' : 'class-fail'">
+          <td class="col-page"
+              ng-class="{'page-validation-error':page.valid==false}">
+<!--            <div ng-include="'ng/page-struct/template.html'"></div>-->
+            <page-struct projectid="projectid" clusterid="clusterid" page="page"></page-struct>
+          </td>
+          <td class="col-cluster">
+            {{page.cluster_id}}
+          </td>
+          <td ng-repeat="field in grid.fields"
+              ng-class="{'cell-validation-error':invalidcells[page.page_id][field.schemaid]}">
+            <table class="table fieldvalues">
+              <tbody>
+                <tr ng-repeat="field_item in page.fields[field.schemaid] 
+                               | limitTo: (page.isExpanded) ? page.fields[field.schemaid].length : 2"
+                    ng-class="{'value-validation-error':field_item.valid==false}">
+                  <td>
+                    {{field_item.value | limitTo: (page.isExpanded) ? field_item.value.length : 50 }}
+                    <span ng-show="!page.isExpanded
+                                   && field_item.value.length>50">...</span>
+                  </td>
+                </tr>
+                <tr ng-show="!page.isExpanded && page.fields[field.schemaid].length > 2">
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr ng-repeat-end>
+          <td colspan="999" class="page-expand-row">
+            <a href="" class="expand-page-icon"
+               ng-click="page.isExpanded=!page.isExpanded">
+              <i class="fa fa-caret-up" aria-hidden="true"
+                 ng-show="page.isExpanded"> less</i>
+              <i class="fa fa-caret-down" aria-hidden="true"
+                 ng-show="!page.isExpanded"> more</i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+
+<link rel="stylesheet" type="text/css"
+      href="/ng/project-verify/style.css">
+
+<style>
+
+</style>

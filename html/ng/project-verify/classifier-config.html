@@ -1,0 +1,104 @@
+  <div ng-controller="classifierConfigCtrl"
+       class="classifier-sidebar"
+       ng-class="{'sidebar-show':show_classifiersettings_panel}">
+    <a href=""
+       id="classifier-toggle"       
+       ng-click="togglePanel('classifier-settings')">
+      <i class="fa fa-filter" aria-hidden="true"></i>
+    </a>
+    <div class="classifier-panel">
+      <div class="classifier-header">
+        Configure Page Classifier
+      </div>
+
+      <span>
+        Please select from the following classifier methods to identify pages of interest
+      </span>
+      
+      <table class="table classifier-table">
+        <tbody>
+          <tr>
+            <td>
+              <input type="radio"
+                     ng-model="classifier"
+                     value="default"
+                     >
+              <a href=""
+                 ng-click="show50pctRule=!show50pctRule">
+                50% Of Fields Not Null
+              </a>
+            </td>
+          </tr>
+          <tr ng-show="show50pctRule"
+              class="classifier-description">
+            <td>
+              This method filters through pages where at least half of the fields are not null.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio"
+                     ng-model="classifier"
+                     value="rule"
+                     >
+              <a href=""
+                 ng-click="showValidationRules=!showValidationRules">
+                All User-Configured Validation Rules Must Pass
+              </a>
+            </td>
+          </tr>
+          <tr ng-show="showValidationRules"
+              class="classifier-description">
+            <td>
+              This method filters through pages that pass all the validation rules you set in the "Fix" page.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <button ng-click="updateClassifier(classifier)"
+              class="btn btn-primary">Apply</button>
+    </div>
+  </div>
+
+<style>
+  
+.classifier-sidebar {
+  position: fixed;
+  top : 145px;
+  left : -800px;;
+  transition : 100ms left;
+  z-index: 3000;
+}
+
+
+#classifier-toggle {
+  position : absolute;
+  left : 800px;
+  background : rgba(3,159,244,.95);
+  color : white;
+  text-decoration: none;
+  padding : 20px 10px;
+  box-shadow: 5px 2px 10px rgba(67, 96, 111, 0.58);
+}
+
+.classifier-header {
+  background : rgb(3,159,244);
+  margin: -10px -30px 5px -30px;
+  padding: 2px 5px;
+  line-height: 2em;
+}
+
+.classifier-panel {
+  list-style : none;
+  padding : 0;
+  margin : 0;
+  background-color : #444;
+  color : white;
+  line-height : 2em;
+  text-decoration : none;
+  padding : 10px 30px;
+  width : 800px;
+}
+
+</style>
